@@ -120,7 +120,7 @@ public class UserServiceImpl implements UserService {
 		try {
 			SecUsers user = userDao.get(userId);
 			String oldEncPassword = user.getPassword();
-			user.setPassword(oldEncPassword);
+			user.setPassword(oldPassowrd);
 			helper.encryptPasswordForOld(user);
 			if (user.getPassword().equals(oldEncPassword)) {
 				user.setPassword(newPassword);
@@ -157,6 +157,23 @@ public class UserServiceImpl implements UserService {
 			throws SecurityServiceException {
 		try {
 			return userDao.compositeQuery(userid, username, lock, pageNumber, pageSize);
+		} catch (DBOperatorException e) {
+			throw new SecurityServiceException(e);
+		}
+	}
+
+	@Override
+	public boolean verifyOldPassowrd(Long userId, String oldPassowrd) throws SecurityServiceException {
+		try {
+			SecUsers user = userDao.get(userId);
+			String oldEncPassword = user.getPassword();
+			user.setPassword(oldPassowrd);
+			helper.encryptPasswordForOld(user);
+			if (user.getPassword().equals(oldEncPassword)) {
+				return true;
+			} else {
+				return false;
+			}
 		} catch (DBOperatorException e) {
 			throw new SecurityServiceException(e);
 		}

@@ -13,7 +13,7 @@ public interface UserService {
 	 * @param user
 	 */
 
-	public SecUsers createUser(SecUsers user) throws SecurityServiceException;
+	SecUsers createUser(SecUsers user) throws SecurityServiceException;
 
 	/**
 	 * 修改密码
@@ -21,7 +21,16 @@ public interface UserService {
 	 * @param userId
 	 * @param newPassword
 	 */
-	public void changePassword(Long userId, String newPassword) throws SecurityServiceException;
+	void changePassword(Long userId, String newPassword) throws SecurityServiceException;
+
+	/**
+	 * 校验老密码是否正确（用户输入一个密码，看是否与现在的密码一致）
+	 * @param userId
+	 * @param oldPassowrd 用户输入的密码
+	 * @return
+	 * @throws SecurityServiceException
+	 */
+	boolean verifyOldPassowrd(Long userId, String oldPassowrd) throws SecurityServiceException;
 
 	/**
 	 * 修改密码
