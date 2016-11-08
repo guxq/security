@@ -8,6 +8,14 @@ import com.beetle.framework.persistence.access.operator.DBOperatorException;
 public interface SecRolesDao {
 	SecRoles get(Long roleid) throws DBOperatorException;
 
+	/**
+	 * 通过ownerId，获取其所有的角色记录
+	 * @param ownerId
+	 * @return
+	 * @throws DBOperatorException
+	 */
+	List<SecRoles> get(String ownerId) throws DBOperatorException;
+
 	List<SecRoles> getAll() throws DBOperatorException;
 
 	SecRoles insert(SecRoles secRoles) throws DBOperatorException;

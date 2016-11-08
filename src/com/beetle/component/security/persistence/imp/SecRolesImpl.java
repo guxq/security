@@ -41,4 +41,9 @@ public class SecRolesImpl implements SecRolesDao {
 		return operator.deleteByPrimaryKey(id);
 	}
 
+	@Override
+	public List<SecRoles> get(String ownerId) throws DBOperatorException {
+		return operator.selectByWhereCondition("where ownerId=? ", new Object[]{ownerId});
+	}
+
 }

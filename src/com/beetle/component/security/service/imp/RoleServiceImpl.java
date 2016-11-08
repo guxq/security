@@ -1,5 +1,7 @@
 package com.beetle.component.security.service.imp;
 
+import java.util.List;
+
 import com.beetle.component.security.dto.SecRoles;
 import com.beetle.component.security.dto.SecRolesPermissions;
 import com.beetle.component.security.persistence.SecRolesDao;
@@ -76,6 +78,15 @@ public class RoleServiceImpl implements RoleService {
 				rp.setRoleId(roleId);
 				rolePermDao.delete(rp);
 			}
+		} catch (DBOperatorException de) {
+			throw new SecurityServiceException(de);
+		}
+	}
+
+	@Override
+	public List<SecRoles> findByOwnerId(String ownerId) throws SecurityServiceException {
+		try {
+			return roleDao.get(ownerId);
 		} catch (DBOperatorException de) {
 			throw new SecurityServiceException(de);
 		}

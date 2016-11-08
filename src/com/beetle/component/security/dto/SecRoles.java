@@ -9,13 +9,34 @@ public class SecRoles implements java.io.Serializable {
 		this.available = available;
 	}
 
+	public SecRoles(String role, Long roleid, Integer available, String description, String ownerId) {
+		super();
+		this.role = role;
+		this.roleid = roleid;
+		this.available = available;
+		this.description = description;
+		this.ownerId = ownerId;
+	}
+
 	private static final long serialVersionUID = 1L;
 	private String role;
 	private Long roleid;
 	private Integer available;
 	private String description;
+	/*
+	 * 角色所属，默认为null<br> 例如：如果此角色属于某个机构，这里填的此机构编号
+	 */
+	private String ownerId;
 
 	public SecRoles() {
+	}
+
+	public String getOwnerId() {
+		return ownerId;
+	}
+
+	public void setOwnerId(String ownerId) {
+		this.ownerId = ownerId;
 	}
 
 	public String getRole() {
@@ -96,7 +117,7 @@ public class SecRoles implements java.io.Serializable {
 	@Override
 	public String toString() {
 		return "SecRoles [role=" + role + ", roleid=" + roleid + ", available=" + available + ", description="
-				+ description + "]";
+				+ description + ", ownerId=" + ownerId + "]";
 	}
-	
+
 }

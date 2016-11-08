@@ -35,6 +35,7 @@ CREATE TABLE IF NOT EXISTS `sec_roles` (
   `role` varchar(100) DEFAULT NULL,
   `description` varchar(100) DEFAULT NULL,
   `available` smallint(6) DEFAULT '0',
+  `ownerId` VARCHAR(20) NULL DEFAULT NULL COMMENT '角色所属，可以为空，例如：此角色属于某个机构，',
   PRIMARY KEY (`roleId`),
   UNIQUE KEY `idx_sec_roles_role` (`role`)
 ) ENGINE=InnoDB AUTO_INCREMENT=782 DEFAULT CHARSET=utf8;
