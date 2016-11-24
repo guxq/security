@@ -84,9 +84,9 @@ public class RoleServiceImpl implements RoleService {
 	}
 
 	@Override
-	public List<SecRoles> findByOwnerId(String ownerId) throws SecurityServiceException {
+	public List<SecRoles> findByOwnerId(String ownerId, int ownerType) throws SecurityServiceException {
 		try {
-			return roleDao.get(ownerId);
+			return roleDao.get(ownerId, ownerType);
 		} catch (DBOperatorException de) {
 			throw new SecurityServiceException(de);
 		}

@@ -31,13 +31,14 @@ CREATE TABLE IF NOT EXISTS `sec_permissions` (
 -- 导出  表 security.sec_roles 结构
 DROP TABLE IF EXISTS `sec_roles`;
 CREATE TABLE IF NOT EXISTS `sec_roles` (
-  `roleId` bigint(20) NOT NULL AUTO_INCREMENT,
-  `role` varchar(100) DEFAULT NULL,
-  `description` varchar(100) DEFAULT NULL,
-  `available` smallint(6) DEFAULT '0',
-  `ownerId` VARCHAR(20) NULL DEFAULT NULL COMMENT '角色所属，可以为空，例如：此角色属于某个机构，',
-  PRIMARY KEY (`roleId`),
-  UNIQUE KEY `idx_sec_roles_role` (`role`)
+ 	`roleId` BIGINT(20) NOT NULL AUTO_INCREMENT,
+	`role` VARCHAR(100) NOT NULL,
+	`description` VARCHAR(100) NULL DEFAULT NULL,
+	`available` SMALLINT(6) NULL DEFAULT '0',
+	`ownerId` VARCHAR(20) NULL DEFAULT '0' COMMENT '角色所属，例如：此角色属于某个机构，A机构',
+	`ownerType` SMALLINT(6) NULL DEFAULT '0' COMMENT '角色所属类型，例如：A机构是金融机构，那可定义1--金融机构',
+	PRIMARY KEY (`roleId`),
+	UNIQUE INDEX `roleUK` (`role`, `ownerId`, `ownerType`)
 ) ENGINE=InnoDB AUTO_INCREMENT=782 DEFAULT CHARSET=utf8;
 
 -- 数据导出被取消选择。

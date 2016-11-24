@@ -9,19 +9,14 @@ public class SecRoles implements java.io.Serializable {
 		this.available = available;
 	}
 
-	public SecRoles(String role, Long roleid, Integer available, String description, String ownerId) {
-		super();
-		this.role = role;
-		this.roleid = roleid;
-		this.available = available;
-		this.description = description;
-		this.ownerId = ownerId;
-	}
-
 	private static final long serialVersionUID = 1L;
 	private String role;
 	private Long roleid;
 	private Integer available;
+	/*
+	 * 角色所属类型，例如：A机构是金融机构，那可定义1--金融机构
+	 */
+	private Integer ownerType;
 	private String description;
 	/*
 	 * 角色所属，默认为null<br> 例如：如果此角色属于某个机构，这里填的此机构编号
@@ -29,6 +24,27 @@ public class SecRoles implements java.io.Serializable {
 	private String ownerId;
 
 	public SecRoles() {
+		this.setOwnerId("0");
+		this.setOwnerType(0);
+	}
+
+	public SecRoles(String role, Long roleid, Integer available, Integer ownerType, String description,
+			String ownerId) {
+		super();
+		this.role = role;
+		this.roleid = roleid;
+		this.available = available;
+		this.ownerType = ownerType;
+		this.description = description;
+		this.ownerId = ownerId;
+	}
+
+	public Integer getOwnerType() {
+		return ownerType;
+	}
+
+	public void setOwnerType(Integer ownerType) {
+		this.ownerType = ownerType;
 	}
 
 	public String getOwnerId() {

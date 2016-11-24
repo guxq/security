@@ -11,10 +11,11 @@ public interface SecRolesDao {
 	/**
 	 * 通过ownerId，获取其所有的角色记录
 	 * @param ownerId
+	 * @param ownerType
 	 * @return
 	 * @throws DBOperatorException
 	 */
-	List<SecRoles> get(String ownerId) throws DBOperatorException;
+	List<SecRoles> get(String ownerId,int ownerType) throws DBOperatorException;
 
 	List<SecRoles> getAll() throws DBOperatorException;
 

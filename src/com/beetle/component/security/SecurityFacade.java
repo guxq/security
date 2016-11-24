@@ -159,6 +159,7 @@ public class SecurityFacade {
 	 * 如果登录成功会启动shiro的记住我功能
 	 */
 	public static LoginStatus loginAndRememberMe(String userName, String password) {
+		logout();
 		Subject subject = getSubject();
 		UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
 		try {
@@ -183,6 +184,7 @@ public class SecurityFacade {
 	}
 
 	public static LoginStatus login(String userName, String password) {
+		logout();
 		Subject subject = getSubject();
 		UsernamePasswordToken token = new UsernamePasswordToken(userName, password);
 		try {
@@ -233,6 +235,10 @@ public class SecurityFacade {
 	}
 
 	public static void logout() {
-		getSubject().logout();
+		try {
+			getSubject().logout();
+		} catch (Exception e) {
+			logger.error("logout err",e);
+		}
 	}
 }

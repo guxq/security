@@ -33,7 +33,7 @@ public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher
 		}
 		this.setHashAlgorithmName(Helper.algorithmName);
 		this.setHashIterations(Helper.hashIterations);
-		logger.debug("time:{},format:{}",max,format);
+		logger.debug("time:{},format:{}", max, format);
 	}
 
 	@Override
@@ -57,14 +57,14 @@ public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher
 				throw new ExcessiveAttemptsException();
 			}
 			boolean matches = super.doCredentialsMatch(token, info);
-			logger.debug("match:{},token:{},info:{}",matches,token,info);
+			logger.debug("match:{},token:{},info:{}", matches, token, info);
 			if (matches) {
 				// clear retry count
 				userService.updateTryTime(user.getUserId(), 0);
 				//
 				if (AppProperties.getAsBoolean("security_login_success_create_session", true)) {
-					user.setPassword("");//为了安全去掉密码
-					user.setSalt("");
+					// user.setPassword("");//为了安全去掉密码
+					//user.setSalt("");
 					SecurityUtils.getSubject().getSession(true).setAttribute("APP_LOGINED_USER", user);
 				}
 			} else {

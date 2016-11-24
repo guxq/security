@@ -10,10 +10,11 @@ public interface RoleService {
 	/**
 	 * 根据所属标示找出此所属标示下所有的角色
 	 * @param ownerId
+	 * @param ownerType
 	 * @return
 	 * @throws SecurityServiceException
 	 */
-	List<SecRoles> findByOwnerId(String ownerId) throws SecurityServiceException;
+	List<SecRoles> findByOwnerId(String ownerId,int ownerType) throws SecurityServiceException;
 
 	void deleteRole(Long roleId) throws SecurityServiceException;
 

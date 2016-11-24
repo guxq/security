@@ -42,8 +42,8 @@ public class SecRolesImpl implements SecRolesDao {
 	}
 
 	@Override
-	public List<SecRoles> get(String ownerId) throws DBOperatorException {
-		return operator.selectByWhereCondition("where ownerId=? ", new Object[]{ownerId});
+	public List<SecRoles> get(String ownerId, int ownerType) throws DBOperatorException {
+		return operator.selectByWhereCondition("where ownerId=? and ownerType=? ", new Object[] { ownerId, ownerType });
 	}
 
 }
