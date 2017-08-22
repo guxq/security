@@ -1,6 +1,7 @@
 package com.beetle.component.security;
 
 import java.io.File;
+import java.util.Collection;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.UnavailableSecurityManagerException;
@@ -11,8 +12,11 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.config.IniSecurityManagerFactory;
 import org.apache.shiro.session.Session;
+import org.apache.shiro.session.mgt.DefaultSessionKey;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.Factory;
+import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 
 import com.beetle.component.security.dto.SecUsers;
 import com.beetle.component.security.service.PermissionService;
@@ -234,11 +238,40 @@ public class SecurityFacade {
 		return userService;
 	}
 
+	/**
+	 * 把某个用户踢出系统（删除它的会话）
+	 * 
+	 * @param username
+	 */
+	public static void kickOut(String username) {
+		DefaultWebSecurityManager dwsm = (DefaultWebSecurityManager) SecurityUtils.getSecurityManager();
+		DefaultWebSessionManager sm = (DefaultWebSessionManager) dwsm.getSessionManager();
+		Collection<Session> sss=sm.getSessionDAO().getActiveSessions();
+		if(sss!=null&&!sss.isEmpty()){
+			for(Session session :sss){
+				SecUsers user = (SecUsers) session.getAttribute("APP_LOGINED_USER");
+				if(user!=null){
+					String uid=user.getUsername().trim();
+					if(uid.equals(username)){
+						DefaultSessionKey dsk=new DefaultSessionKey(session.getId());
+						Session s2=sm.getSession(dsk);
+						if(s2!=null){
+							s2.setTimeout(0);
+						}
+						session.setTimeout(0);//过期这个session	
+						logger.info("kickOut user:{}",user.getUsername());
+						break;
+					}
+				}
+			}
+		}
+	}
+
 	public static void logout() {
 		try {
 			getSubject().logout();
 		} catch (Exception e) {
-			logger.error("logout err",e);
+			logger.error("logout err", e);
 		}
 	}
 }

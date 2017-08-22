@@ -2,7 +2,9 @@ package com.beetle.component.security.session;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.Iterator;
+import java.util.Set;
+import java.util.concurrent.ConcurrentLinkedDeque;
 
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
@@ -14,6 +16,9 @@ import com.beetle.framework.AppRuntimeException;
 import com.beetle.framework.log.AppLogger;
 import com.beetle.framework.persistence.nosql.redis.RedisOperator;
 import com.beetle.framework.persistence.nosql.redis.pubsub.PubSubManager;
+import com.beetle.framework.util.ObjectUtil;
+
+import redis.clients.jedis.Jedis;
 
 public class RedisSessionDao extends AbstractSessionDAO {
 	private String ds;
@@ -22,6 +27,7 @@ public class RedisSessionDao extends AbstractSessionDAO {
 	private static PubSubManager psm;
 	static final String REDIS_SESSION_UPDATE_TOPIC = "REDIS_SESSION_UPDATE_TOPIC";
 
+	// private final Collection<Session> sessionList;
 	public RedisSessionDao() {
 		super();
 		this.ds = AppProperties.get("security_session_redis_datasource");
@@ -74,13 +80,38 @@ public class RedisSessionDao extends AbstractSessionDAO {
 
 	@Override
 	public Collection<Session> getActiveSessions() {
-		return Collections.emptySet();
+		// return Collections.emptySet();
+		Collection<Session> sessionList = new ConcurrentLinkedDeque<Session>();
+		RedisOperator ro = new RedisOperator(ds);
+		Jedis jedis = null;
+		try {
+			jedis = ro.getJedisInstanceFromPool();
+			Set<String> s = jedis.keys("*");
+			Iterator<String> it = s.iterator();
+			while (it.hasNext()) {
+				String key = it.next();
+				byte bb[] = jedis.get(key.getBytes());
+				if (bb != null) {
+					try {
+						Session ss = (Session) ObjectUtil.bytesToObj(bb);
+						sessionList.add(ss);
+					} catch (Throwable te) {
+					}
+				}
+			}
+		} finally {
+			if (jedis != null) {
+				jedis.close();
+			}
+		}
+		return sessionList;
 	}
 
 	@Override
 	protected Serializable doCreate(Session session) {
 		Serializable sessionId = generateSessionId(session);
 		assignSessionId(session, sessionId);
+		// sessionList.add(session);
 		RedisOperator ro = new RedisOperator(ds);
 		boolean f = ro.put(sessionId.toString(), session, expire);
 		if (logger.isDebugEnabled()) {
