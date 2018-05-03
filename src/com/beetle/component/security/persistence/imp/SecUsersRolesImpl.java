@@ -32,7 +32,7 @@ public class SecUsersRolesImpl implements SecUsersRolesDao {
 
 	@Override
 	public boolean exists(SecUsersRoles secUsersRoles) throws DBOperatorException {
-		QueryOperator q = new QueryOperator();
+		QueryOperator q = new QueryOperator(true);
 		q.setDataSourceName(Helper.DATASOURCE);
 		q.setSql("select count(1) cc from sec_users_roles where userId=? and roleId=? ");
 		q.addParameter(secUsersRoles.getUserId());

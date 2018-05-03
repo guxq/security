@@ -34,7 +34,7 @@ public class SecRolesPermissionsImpl implements SecRolesPermissionsDao {
 
 	@Override
 	public boolean exists(SecRolesPermissions secrolespermissions) throws DBOperatorException {
-		QueryOperator q = new QueryOperator();
+		QueryOperator q = new QueryOperator(true);
 		q.setDataSourceName(Helper.DATASOURCE);
 		q.setSql("select count(1) cc from sec_roles_permissions where permissionId=? and roleId=? ");
 		q.addParameter(secrolespermissions.getPermissionId());

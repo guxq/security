@@ -27,6 +27,7 @@ public class SecUsersImpl implements SecUsersDao {
 		// "sec_users", SecUsers.class);
 		//// 针对包含自增字段的表，使用下面的构造函数
 		operator = new TableOperator<SecUsers>(Helper.DATASOURCE, "sec_users", SecUsers.class, "userId");
+		operator.setNotDesensitize(true);
 	}
 
 	public SecUsers get(Long id) throws DBOperatorException {
@@ -61,7 +62,7 @@ public class SecUsersImpl implements SecUsersDao {
 	@Override
 	public Set<String> findRoles(String username) throws DBOperatorException {
 		String sql = "select role from sec_users u, sec_roles r,sec_users_roles ur where u.username=? and u.userId=ur.userId and r.roleId=ur.roleId";
-		QueryOperator q = new QueryOperator();
+		QueryOperator q = new QueryOperator(true);
 		q.setDataSourceName(Helper.DATASOURCE);
 		q.setSql(sql);
 		q.addParameter(username);
@@ -78,7 +79,7 @@ public class SecUsersImpl implements SecUsersDao {
 	@Override
 	public Set<String> findPermissions(String username) throws DBOperatorException {
 		String sql = "select permission from sec_users u, sec_roles r, sec_permissions p, sec_users_roles ur, sec_roles_permissions rp where u.username=? and u.userId=ur.userId and r.roleId=ur.roleId and r.roleId=rp.roleId and p.permissionId=rp.permissionId";
-		QueryOperator q = new QueryOperator();
+		QueryOperator q = new QueryOperator(true);
 		q.setDataSourceName(Helper.DATASOURCE);
 		q.setSql(sql);
 		q.addParameter(username);
@@ -114,6 +115,7 @@ public class SecUsersImpl implements SecUsersDao {
 		PageParameter pp = new PageParameter(QueryMode.CompositeSQL);
 		pp.setCacheRecordAmountFlag(true);
 		pp.setDataSourceName(Helper.DATASOURCE);
+		pp.setNotDesensitize(true);
 		pp.setPageNumber(pageNumber);
 		pp.setPageSize(pageSize);
 		pp.setUserSql("select * from sec_users");

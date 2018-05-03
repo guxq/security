@@ -17,6 +17,7 @@ public class SecRolesImpl implements SecRolesDao {
 		// "sec_roles", SecRoles.class);
 		//// 针对包含自增字段的表，使用下面的构造函数
 		operator = new TableOperator<SecRoles>(Helper.DATASOURCE, "sec_roles", SecRoles.class, "roleId");
+		operator.setNotDesensitize(true);
 	}
 
 	public SecRoles get(Long id) throws DBOperatorException {

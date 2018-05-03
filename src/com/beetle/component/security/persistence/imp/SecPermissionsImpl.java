@@ -18,6 +18,7 @@ public class SecPermissionsImpl implements SecPermissionsDao {
 		//// 针对包含自增字段的表，使用下面的构造函数
 		operator = new TableOperator<SecPermissions>(Helper.DATASOURCE, "sec_permissions", SecPermissions.class,
 				"permissionId");
+		operator.setNotDesensitize(true);
 	}
 
 	public SecPermissions get(Long id) throws DBOperatorException {
