@@ -6,13 +6,13 @@ import com.beetle.component.security.persistence.SecRolesPermissionsDao;
 import com.beetle.component.security.service.PermissionService;
 import com.beetle.component.security.service.SecurityServiceException;
 import com.beetle.framework.persistence.access.operator.DBOperatorException;
-import com.beetle.framework.resource.dic.def.InjectField;
+import com.beetle.framework.resource.dic.def.DaoField;
 import com.beetle.framework.resource.dic.def.ServiceTransaction;
 
 public class PermissionServiceImpl implements PermissionService {
-	@InjectField
+	@DaoField
 	private SecPermissionsDao pmsDao;
-	@InjectField
+	@DaoField
 	private SecRolesPermissionsDao rpDao;
 
 	@Override

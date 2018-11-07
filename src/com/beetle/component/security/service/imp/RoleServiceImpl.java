@@ -10,16 +10,16 @@ import com.beetle.component.security.persistence.SecUsersRolesDao;
 import com.beetle.component.security.service.RoleService;
 import com.beetle.component.security.service.SecurityServiceException;
 import com.beetle.framework.persistence.access.operator.DBOperatorException;
-import com.beetle.framework.resource.dic.def.InjectField;
+import com.beetle.framework.resource.dic.def.DaoField;
 import com.beetle.framework.resource.dic.def.ServiceTransaction;
 import com.beetle.framework.resource.dic.def.ServiceTransaction.Manner;
 
 public class RoleServiceImpl implements RoleService {
-	@InjectField
+	@DaoField
 	private SecRolesDao roleDao;
-	@InjectField
+	@DaoField
 	private SecUsersRolesDao userRoleDao;
-	@InjectField
+	@DaoField
 	private SecRolesPermissionsDao rolePermDao;
 
 	@Override

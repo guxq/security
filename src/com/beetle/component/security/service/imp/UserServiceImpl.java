@@ -10,13 +10,13 @@ import com.beetle.component.security.service.SecurityServiceException;
 import com.beetle.component.security.service.UserService;
 import com.beetle.framework.persistence.access.operator.DBOperatorException;
 import com.beetle.framework.resource.define.PageList;
-import com.beetle.framework.resource.dic.def.InjectField;
+import com.beetle.framework.resource.dic.def.DaoField;
 import com.beetle.framework.resource.dic.def.ServiceTransaction;
 
 public class UserServiceImpl implements UserService {
-	@InjectField
+	@DaoField
 	private SecUsersDao userDao;
-	@InjectField
+	@DaoField
 	private SecUsersRolesDao userRoleDao;
 	private final Helper helper;
 
